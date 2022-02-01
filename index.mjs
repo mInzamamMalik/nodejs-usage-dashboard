@@ -12,9 +12,6 @@ app.use(express.json());
 const PORT = process.env.PORT || 4000
 
 app.use('/', express.static(path.join(__dirname, 'web/build')))
-app.get("/", (req, res, next) => {
-    res.send("ping");
-})
 app.post("/putload", (req, res, next) => {
 
     let data = [];
