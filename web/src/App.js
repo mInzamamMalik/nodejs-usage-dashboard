@@ -35,7 +35,9 @@ ChartJS.register(
 function App() {
 
 
-  const baseUrl = "https://inzi.herokuapp.com"
+
+  const baseUrl = ""
+  // const baseUrl = "https://inzi.herokuapp.com"
   // const baseUrl = "http://localhost:4000"
 
 

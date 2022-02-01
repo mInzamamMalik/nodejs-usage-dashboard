@@ -11,6 +11,7 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 4000
 
+app.use('/', express.static(path.join(__dirname, 'web/build')))
 app.get("/", (req, res, next) => {
     res.send("ping");
 })
@@ -70,6 +71,10 @@ setInterval(() => {
 
 }, 500)
 
+app.get("/**", (req, res, next) => {
+    // res.sendFile(path.join(__dirname, "./web/build/index.html"))
+    res.redirect("/")
+})
 server.listen(PORT, function () {
     console.log("server is running on", PORT);
 })
