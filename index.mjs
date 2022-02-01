@@ -4,6 +4,8 @@ import express from 'express';
 import { createServer } from "http";
 import { Server as socketIo } from 'socket.io';
 import cors from "cors";
+import path from 'path';
+const __dirname = path.resolve();
 
 let app = express()
 app.use(cors())
