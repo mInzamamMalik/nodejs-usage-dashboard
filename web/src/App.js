@@ -48,7 +48,7 @@ function App() {
 
   const [totalResource, setTotalResource] = useState({
     ram: 0,
-    cpu: 0
+    cpuCores: 0
   })
 
   const labels = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12",
@@ -73,11 +73,11 @@ function App() {
     // to subcribe to a topic
     socket.on('USAGE', function (data) {
       // console.log("cpu usage: ", data.data[0]);
-      // console.log(data);
+      console.log(data);
 
       setReadings(prev => [data.data[0], ...prev,])
       setRamReadings(prev => [data.data[2].usedMemPercentage, ...prev,])
-      setTotalResource(prev => ({ ...prev, ram: data.data[2].totalMemMb }))
+      setTotalResource(prev => ({ ...prev, ram: data.data[2].totalMemMb, cpuCores: data.data[4] }))
     });
 
     socket.on('disconnect', function (message) {
@@ -107,7 +107,7 @@ function App() {
           },
           title: {
             display: true,
-            text: 'CPU Usage',
+            text: `CPU - ${totalResource.cpuCores} core`,
           }
         },
       }} data={{
