@@ -1,47 +1,73 @@
 import os from 'os'
 import osu from 'node-os-utils'
-import Inspector from 'inspector-api'
+import express from 'express';
+import { createServer } from "http";
+import { Server as socketIo } from 'socket.io';
+
+let app = express()
+// app.use(cors())
+// app.use(bodyParser.json());
+
+const PORT = process.env.PORT || 4000
+
+app.get("/", (req, res, next) => {
+    res.send("ping");
+})
+
+// THIS IS THE ACTUAL SERVER WHICH IS RUNNING
+const server = createServer(app);
+
+// handing over server access to socket.io
+const io = new socketIo(server, { cors: { origin: "*", methods: "*", } });
 
 
-// setInterval(() => {
+io.on("connection", (socket) => {
+    console.log("New client connected with id: ", socket.id);
 
-//     // console.log(os.cpus());
-//     console.log(`total memory: ${os.totalmem() / 1024 / 1024} MB`);
-//     console.log(`free memory: ${Number(os.freemem() / 1024 / 1024).toFixed(2)} MB`)
-//     console.log(`free memory: ${((os.freemem() * 100) / os.totalmem()).toFixed(2)}%`)
+    // to emit data to a certain client
+    socket.emit("topic 1", "some data")
 
-
-//     console.log(`Arch: ${os.arch()} ${os.type()}`)
-//     console.log("\n\n")
-
-// }, 1000);
+    socket.on("disconnect", (message) => {
+        console.log("Client disconnected with id: ", message);
+    });
+});
 
 
-
-// var cpu = osu.cpu
-// var drive = osu.drive
-// var mem = osu.mem
-
-// setInterval(() => {
-    // cpu.usage()
-    //     .then(info => {
-    //         console.log(info)
-    //     })
-    // cpu.free()
-    //     .then(info => {
-    //         console.log(info)
-    //     })
+// to emit data to a certain client
+//  connectedUsers[0].emit("topic 1", "some data")
 
 
-    // mem.info()
-    // .then(info => {
-    //   console.log(info)
-    // })
+
+let cpu = osu.cpu
+let drive = osu.drive
+let mem = osu.mem
+
+setInterval(() => {
+
+    Promise.all([
+        cpu.usage(),
+        cpu.free(),
+        mem.info(),
+        drive.info()
+    ]).then(informations => {
+        console.log(informations);
+
+        io.emit("USAGE", { data: informations });
+        console.log("emiting data to all client");
+    });
+
+}, 2000)
+
+server.listen(PORT, function () {
+    console.log("server is running on", PORT);
+})
 
 
-    // drive.info()
-    //     .then(info => {
-    //         console.log(info)
-    //     })
 
-// }, 1000);
+
+
+
+
+
+
+
