@@ -14,6 +14,17 @@ const PORT = process.env.PORT || 4000
 app.get("/", (req, res, next) => {
     res.send("ping");
 })
+app.post("/putload", (req, res, next) => {
+
+    let data = [];
+
+    for (let i = 0; i < 99999; i++) {
+        data.push(Math.random());
+        console.log("load " + i)
+    }
+
+    res.send("completed");
+})
 
 // THIS IS THE ACTUAL SERVER WHICH IS RUNNING
 const server = createServer(app);
@@ -51,13 +62,13 @@ setInterval(() => {
         mem.info(),
         drive.info()
     ]).then(informations => {
-        console.log(informations);
+        // console.log(informations);
 
         io.emit("USAGE", { data: informations });
         console.log("emiting data to all client");
     });
 
-}, 2000)
+}, 500)
 
 server.listen(PORT, function () {
     console.log("server is running on", PORT);

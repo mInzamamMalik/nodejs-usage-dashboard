@@ -12,9 +12,9 @@ import {
   Filler,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import faker from 'faker';
 import { useEffect, useState } from 'react';
 import io from 'socket.io-client';
+import axios from 'axios';
 
 
 
@@ -33,6 +33,13 @@ ChartJS.register(
 
 
 function App() {
+
+
+  const baseUrl = "https://inzi.herokuapp.com"
+  // const baseUrl = "http://localhost:4000"
+
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [readings, setReadings] = useState([]);
   const [ramReadings, setRamReadings] = useState([]);
@@ -54,16 +61,17 @@ function App() {
 
   useEffect(() => {
 
-    const socket = io("https://inzi.herokuapp.com");
+    const socket = io(baseUrl);
 
     socket.on('connect', function () {
       console.log("connected")
     });
 
+
     // to subcribe to a topic
     socket.on('USAGE', function (data) {
       // console.log("cpu usage: ", data.data[0]);
-      console.log(data);
+      // console.log(data);
 
       setReadings(prev => [data.data[0], ...prev,])
       setRamReadings(prev => [data.data[2].usedMemPercentage, ...prev,])
@@ -78,13 +86,13 @@ function App() {
       socket.close();
     }
 
-  })
+  }, [])
 
 
 
 
   return (
-    <div style={{ display: "flex", justifyContent: "space-around", flexDirection: 'column', width: "30%" }}>
+    <div style={{ display: "flex", justifyContent: "space-around", flexDirection: 'column', width: "60%" }}>
 
       <Line options={{
         // responsive: true,
@@ -146,10 +154,19 @@ function App() {
             // borderWidth: 1,
           }
         ]
-      }} />time
+      }} />
 
 
+      <button onClick={() => {
 
+        setIsLoading(true)
+        axios.post(`${baseUrl}/putload`, {}).then(response => {
+          setIsLoading(false)
+        })
+
+      }}>Put Load</button>
+
+      <p>{(isLoading) ? "putting load in progress..." : ""}</p>
 
     </div>
   );
