@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/malikasinger1/nodejs-usage-dashboard#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.2",
     "node-os-utils": "^1.3.6",
     "socket.io": "^4.4.1",

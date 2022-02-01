@@ -3,10 +3,11 @@ import osu from 'node-os-utils'
 import express from 'express';
 import { createServer } from "http";
 import { Server as socketIo } from 'socket.io';
+import cors from "cors";
 
 let app = express()
-// app.use(cors())
-// app.use(bodyParser.json());
+app.use(cors())
+app.use(express.json());
 
 const PORT = process.env.PORT || 4000
 
