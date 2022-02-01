@@ -1,0 +1,7 @@
+{
+  "name": "nodejs-usage-dashboard",
+  "description": "realtime nodejs-usage-dashboard app using Express and socket.io",
+  "repository": "https://github.com/malikasinger1/nodejs-usage-dashboard",
+  "logo": "https://node-js-sample.herokuapp.com/node.png",
+  "keywords": ["node", "express", "socket.io"]
+}
