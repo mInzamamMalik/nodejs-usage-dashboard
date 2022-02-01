@@ -1,0 +1,22 @@
+{
+  "name": "nodejs-usage-dashboard",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/malikasinger1/nodejs-usage-dashboard.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/malikasinger1/nodejs-usage-dashboard/issues"
+  },
+  "homepage": "https://github.com/malikasinger1/nodejs-usage-dashboard#readme",
+  "dependencies": {
+    "node-os-utils": "^1.3.6"
+  }
+}
