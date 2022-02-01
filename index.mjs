@@ -19,10 +19,11 @@ app.post("/putload", (req, res, next) => {
     let data = [];
 
     for (let i = 0; i < 99999; i++) {
-        data.push(Math.random());
-        console.log("load " + i)
+        process.nextTick(() => {
+            data.push(Math.random());
+            console.log("load " + i)
+        })
     }
-
     res.send("completed");
 })
 
@@ -60,7 +61,8 @@ setInterval(() => {
         cpu.usage(),
         cpu.free(),
         mem.info(),
-        drive.info()
+        drive.info(),
+        cpu.count()
     ]).then(informations => {
         // console.log(informations);
 
